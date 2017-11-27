@@ -9,6 +9,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 def create(s, obj):
     s.add(obj)
     s.commit()
