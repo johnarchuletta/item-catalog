@@ -1,0 +1,25 @@
+#main-header
+    #header-text(style='flex-grow: 1;')
+        a(href='/', style='color: #D84315; text-decoration: none;')
+            h1 #{site_title}
+    #header-login
+        if hide_login != true
+            if username != ''
+                #logged-in-container
+                    #username-container
+                        p#username #{username}
+                        a#logout(href='/gdisconnect') Log Out
+                    #user-picture-container
+                        img#user-picture(src=picture)
+            else
+                #result
+                #signinButton
+                span.g-signin(
+                    data-scope='openid email',
+                    data-clientid='460290556535-q2per55g2s5dg4vo7vnt3tff5og344bv.apps.googleusercontent.com',
+                    data-redirecturi='postmessage',
+                    data-accesstype='offline',
+                    data-cookiepolicy='single_host_origin',
+                    data-callback='signInCallback',
+                    data-approvalprompt='force'
+                )

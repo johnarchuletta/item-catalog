@@ -1,0 +1,76 @@
+include includes/head.pug
+body
+    .col-960
+        include includes/header.pug
+        #content-area
+            #categories
+                h3 Categories
+                br
+                ul.cat-list
+                    li 
+                        if category_name.lower() == 'all'
+                            span.category-link-disabled All
+                        else
+                            a.link-disabled(href='/', style='display: block;') All
+                    each category in categories
+                        li
+                            if category_name.lower() == category.name
+                                span.category-link-disabled #{category.name.title()}
+                            else
+                                a(href='/#{category.name.lower()}', style='display: block;') #{category.name.title()}
+                br
+                if username != ''
+                    a(href='/add')
+                        i.fa.fa-plus-circle(aria-hidden='true', style='width: 25px;')
+                        span Add New Item
+                br
+                br
+                p API Endpoints
+                a(href='/api/v1/categories') Categories
+                br
+                a(href='/api/v1/items') Items
+            #items
+                each item in items
+                    .item-card
+                        .item-image-container
+                            a.item-link.item-link-image(href='/item?id=#{item.id}')
+                                img(src='#{item.image}')
+                        a.item-link(href='/item?id=#{item.id}') #{item.name}
+                        span.item-price $ &nbsp;
+                        span.item-price #{item.price}
+                        br
+                        span.item-category Category: #{item.category.name}
+                        br
+                        br
+                        if user_id == item.user_id
+                            a(href='/delete?id=#{item.id}')
+                                i.fa.fa-trash(aria-hidden='true', style='width: 25px;')
+                                span Delete Item
+                            br
+                            a(href='/edit?id=#{item.id}')
+                                i.fa.fa-pencil-square-o(aria-hidden='true', style='width: 25px;')
+                                span Edit Item
+    script.
+        function signInCallback(authResult) {
+            if (authResult['code']) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/gconnect?state=#{state}',
+                    processData: false,
+                    data: authResult['code'],
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function(result) {
+                        console.log(result);
+                        console.log(result)
+                        if (result) {
+                            location.reload();
+                        } else if (authResult['error']) {
+                            console.log('There was an error: ' + authResult['error']);
+                        } else {
+                            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                        }
+                    }
+                }); 
+            }
+        }
+        

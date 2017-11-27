@@ -1,0 +1,53 @@
+include includes/head.pug
+body
+    .col-960
+        include includes/header.pug
+        #content-area(style='display: flex;')
+            #items(style='grid-column-start: 1; grid-column-end: 3; display: flex; justify-content: center;')
+                .item-card
+                    .item-image-container
+                        a.item-link.item-link-image(href='/item?id=#{item.id}')
+                            img(src='#{item.image}')
+                    a.item-link(href='/item?id=#{item.id}') #{item.name}
+                    span.item-price $ &nbsp;
+                    span.item-price #{item.price}
+                    br
+                    p #{item.description}
+                    span.item-category Category: #{item.category.name}
+                    br
+                    br
+                    if user_id == item.user_id
+                        a(href='/delete?id=#{item.id}')
+                            i.fa.fa-trash(aria-hidden='true', style='width: 25px;')
+                            span Delete Item
+                        br
+                        a(href='/edit?id=#{item.id}')
+                            i.fa.fa-pencil-square-o(aria-hidden='true', style='width: 25px;')
+                            span Edit Item
+                    br
+                    br
+                    a(href="javascript:history.back()") Go Back
+    script.
+        function signInCallback(authResult) {
+            if (authResult['code']) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/gconnect?state=#{state}',
+                    processData: false,
+                    data: authResult['code'],
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function(result) {
+                        console.log(result);
+                        console.log(result)
+                        if (result) {
+                            window.location.href = "/";
+                        } else if (authResult['error']) {
+                            console.log('There was an error: ' + authResult['error']);
+                        } else {
+                            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                        }
+                    }
+                }); 
+            }
+        }
+        

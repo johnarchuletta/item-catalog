@@ -1,0 +1,26 @@
+include includes/head.pug
+body
+    .col-960
+        include includes/header.pug
+        #content-area-form
+            form.item-form(method='post', action='/edit?id=#{item.id}', enctype='multipart/form-data', name='edit-item')
+                .form-grid
+                    label(for='name') Name:
+                    input.mb-1(type='text', name='name', value='#{item.name}')
+                    label(for='description') Description:
+                    textarea.mb-1(name='description', rows='5', style='font-family: Roboto, Arial, sans-serif;') #{item.description}
+                    label(for='price') Price:
+                    input.mb-1(type='text', name='price', style='width: 150px;', value='#{item.price}')
+                    label(for='category') Category:
+                    select.mb-1(name='category')
+                        each category, index in categories
+                            if (index+1) == item.category_id
+                                option(value='#{category.id}', selected='selected') #{category.name}
+                            else
+                                option(value='#{category.id}') #{category.name}
+                    label(for='image') Image URL:
+                    input.mb-1(type='text', name='image', value='#{item.image}')
+                    input(type='hidden', name='item-id', value='#{item.id}')
+                    .form-submit
+                        input(type='submit', value='Update Item', style='padding: 3px 8px; font-weight: bold; margin-right: 25px;')
+                        a(href='javascript:history.back()') Go Back

@@ -1,0 +1,15 @@
+include includes/head.pug
+body
+    .col-960
+        include includes/header.pug
+        #content-area-form
+            form.item-form(method='post', action='/#{action}?id=#{item.id}', enctype='multipart/form-data')
+                .form-grid
+                    #item-info
+                        p ID: #{item.id}
+                        p Name: #{item.name}
+                        p Price: #{item.price}
+                        p User ID: #{item.user_id}
+                    input(type='hidden', name='item-id', value='#{item.id}')
+                    input(type='submit', style='padding: 3px 8px; font-weight: bold; color: red; font-size: 20px;', value='Delete')
+                    a(href='javascript:history.back()', style='margin: 25px 0 0 0; font-weight: bold; grid-column-start: 2; grid-column-end: 3; text-align: center;') Go Back

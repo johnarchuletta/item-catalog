@@ -1,0 +1,22 @@
+include includes/head.pug
+body
+    .col-960
+        include includes/header.pug
+        #content-area-form
+            form.item-form(method='post', action='/#{action}', enctype='multipart/form-data', name='add-item')
+                .form-grid
+                    label(for='name') Name:
+                    input.mb-1(type='text', name='name', placeholder='ACME Time Bomb')
+                    label(for='description') Description:
+                    textarea.mb-1(name='description', rows='5', placeholder='Trusty weapon for pesty foes.', style='font-family: Roboto, Arial, sans-serif;')
+                    label(for='price') Price:
+                    input.mb-1(type='text', name='price', style='width: 150px;', placeholder='ex. 19.99')
+                    label(for='category') Category:
+                    select.mb-1(name='category')
+                        each category in categories
+                            option(value='#{category.id}') #{category.name}
+                    label(for='image') Image URL:
+                    input.mb-1(type='text', name='image', placeholder='https://somewhen.com/3902fw.jpg')
+                    .form-submit
+                        input(type='submit', value='Add Item', style='padding: 3px 8px; font-weight: bold;')
+                        a(href='/', style='padding: 3px 8px; color: red; align-self: flex-end; margin-left: 30px; font-weight: bold;') Cancel
